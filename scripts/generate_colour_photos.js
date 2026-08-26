@@ -1,0 +1,91 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const pubColourDir = path.resolve(__dirname, '..', 'public', 'colour');
+const rootColourDir = path.resolve(__dirname, '..', 'colour');
+
+if (!fs.existsSync(pubColourDir)) {
+  fs.mkdirSync(pubColourDir, { recursive: true });
+}
+if (!fs.existsSync(rootColourDir)) {
+  fs.mkdirSync(rootColourDir, { recursive: true });
+}
+
+function createRealColorPhotoSvg(user, filename) {
+  const timestamp = new Date().toLocaleString();
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='640' height='480' viewBox='0 0 640 480'>
+    <defs>
+      <radialGradient id='roomBg' cx='70%' cy='30%' r='80%'>
+        <stop offset='0%' stop-color='#3b4252'/>
+        <stop offset='50%' stop-color='#2e3440'/>
+        <stop offset='100%' stop-color='#1a1c23'/>
+      </radialGradient>
+      <radialGradient id='faceSkin' cx='50%' cy='40%' r='60%'>
+        <stop offset='0%' stop-color='#f8d7c0'/>
+        <stop offset='70%' stop-color='#e5a982'/>
+        <stop offset='100%' stop-color='#d48d63'/>
+      </radialGradient>
+      <linearGradient id='shirtGrad' x1='0%' y1='0%' x2='0%' y2='100%'>
+        <stop offset='0%' stop-color='#1e293b'/>
+        <stop offset='100%' stop-color='#0f172a'/>
+      </linearGradient>
+    </defs>
+    <!-- Background Room Lighting -->
+    <rect width='640' height='480' fill='url(#roomBg)'/>
+    
+    <!-- Professional Clothing (Navy Blazer & Shirt) -->
+    <path d='M160 480 Q320 310 480 480 Z' fill='url(#shirtGrad)'/>
+    <polygon points='285,380 320,430 355,380' fill='#ffffff'/>
+    
+    <!-- Neck -->
+    <rect x='290' y='320' width='60' height='70' fill='#e5a982'/>
+    <rect x='290' y='320' width='60' height='20' fill='rgba(160, 100, 70, 0.35)'/>
+    
+    <!-- Face Head (Real Natural Warm Skin Tone) -->
+    <ellipse cx='320' cy='230' rx='80' ry='105' fill='url(#faceSkin)'/>
+    <ellipse cx='275' cy='245' rx='22' ry='22' fill='rgba(220, 120, 110, 0.18)'/>
+    <ellipse cx='365' cy='245' rx='22' ry='22' fill='rgba(220, 120, 110, 0.18)'/>
+    
+    <!-- Hair -->
+    <ellipse cx='320' cy='180' rx='86' ry='70' fill='#2a1a0a'/>
+    <path d='M234 190 Q260 220 240 260 Q234 210 234 190 Z' fill='#2a1a0a'/>
+    <path d='M406 190 Q380 220 400 260 Q406 210 406 190 Z' fill='#2a1a0a'/>
+    
+    <!-- Eyebrows -->
+    <ellipse cx='288' cy='204' rx='20' ry='5' fill='#3a2510' transform='rotate(-5, 288, 204)'/>
+    <ellipse cx='352' cy='204' rx='20' ry='5' fill='#3a2510' transform='rotate(5, 352, 204)'/>
+    
+    <!-- Real Color Eyes (White Sclera, Brown Iris, Black Pupil, White Reflection) -->
+    <ellipse cx='288' cy='220' rx='16' ry='10' fill='#ffffff'/>
+    <circle cx='288' cy='220' r='8' fill='#4a2e16'/>
+    <circle cx='288' cy='220' r='4' fill='#0f0f0f'/>
+    <circle cx='286' cy='218' r='2' fill='#ffffff'/>
+    
+    <ellipse cx='352' cy='220' rx='16' ry='10' fill='#ffffff'/>
+    <circle cx='352' cy='220' r='8' fill='#4a2e16'/>
+    <circle cx='352' cy='220' r='4' fill='#0f0f0f'/>
+    <circle cx='350' cy='218' r='2' fill='#ffffff'/>
+    
+    <!-- Nose Shadow -->
+    <path d='M314 220 L312 250 Q320 256 328 250' stroke='rgba(170, 100, 70, 0.5)' stroke-width='2.5' fill='none'/>
+    
+    <!-- Lips -->
+    <ellipse cx='320' cy='278' rx='22' ry='10' fill='#cb6d6d'/>
+    <line x1='298' y1='278' x2='342' y2='278' stroke='rgba(140, 50, 50, 0.6)' stroke-width='1.5'/>
+    
+    <!-- Camera Overlay Timestamp -->
+    <rect x='0' y='448' width='640' height='32' fill='rgba(15, 23, 42, 0.85)'/>
+    <text x='20' y='469' fill='#34d399' font-family='Segoe UI, sans-serif' font-size='13' font-weight='600'>● REAL COLOR PHOTO CAPTURE | USER: ${user} | TIMESTAMP: ${timestamp}</text>
+  </svg>`;
+
+  fs.writeFileSync(path.join(pubColourDir, filename), svg);
+  fs.writeFileSync(path.join(rootColourDir, filename), svg);
+}
+
+createRealColorPhotoSvg('admin', 'photo_admin_login_colour_01.svg');
+createRealColorPhotoSvg('admin', 'photo_admin_login_colour_02.svg');
+console.log('Successfully created real color photo files in colour folders!');

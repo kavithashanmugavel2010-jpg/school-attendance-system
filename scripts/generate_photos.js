@@ -1,0 +1,46 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const photosDir = path.join(__dirname, '..', 'public', 'photos');
+if (!fs.existsSync(photosDir)) {
+  fs.mkdirSync(photosDir, { recursive: true });
+}
+
+function generatePhotoFile(user, filename) {
+  const timestamp = new Date().toLocaleString();
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='640' height='480' viewBox='0 0 640 480'>
+    <defs>
+      <linearGradient id='bg' x1='0%' y1='0%' x2='100%' y2='100%'>
+        <stop offset='0%' stop-color='#0f172a'/>
+        <stop offset='100%' stop-color='#1e1b4b'/>
+      </linearGradient>
+    </defs>
+    <rect width='640' height='480' fill='url(#bg)'/>
+    <!-- Security Grid -->
+    <path d='M0 60 H640 M0 120 H640 M0 180 H640 M0 240 H640 M0 300 H640 M0 360 H640 M0 420 H640' stroke='rgba(99,102,241,0.15)' stroke-width='1'/>
+    <path d='M80 0 V480 M160 0 V480 M240 0 V480 M320 0 V480 M400 0 V480 M480 0 V480 M560 0 V480' stroke='rgba(99,102,241,0.15)' stroke-width='1'/>
+    <!-- Face Silhouette Oval -->
+    <ellipse cx='320' cy='220' rx='100' ry='140' fill='rgba(79,70,229,0.25)' stroke='#6366f1' stroke-width='3'/>
+    <!-- Face Mesh Wireframe Lines -->
+    <path d='M220 220 H420 M320 80 V360 M250 180 Q320 200 390 180 M250 280 Q320 310 390 280' stroke='rgba(165,180,252,0.6)' stroke-width='1.5' fill='none'/>
+    <!-- Eye & Nose Landmark Points -->
+    <circle cx='270' cy='180' r='8' fill='#38bdf8'/>
+    <circle cx='370' cy='180' r='8' fill='#38bdf8'/>
+    <circle cx='320' cy='220' r='6' fill='#34d399'/>
+    <circle cx='320' cy='275' r='7' fill='#818cf8'/>
+    <!-- HUD Header -->
+    <rect x='20' y='20' width='360' height='36' rx='6' fill='rgba(15,23,42,0.85)' stroke='rgba(255,255,255,0.2)'/>
+    <text x='35' y='43' fill='#34d399' font-family='Segoe UI, sans-serif' font-size='14' font-weight='bold'>MEDIAPIPE 3D FACE SNAPSHOT</text>
+    <text x='20' y='445' fill='#94a3b8' font-family='Segoe UI, sans-serif' font-size='13'>USER: ${user} | STATUS: AUTHORIZED | TIME: ${timestamp}</text>
+  </svg>`;
+
+  fs.writeFileSync(path.join(photosDir, filename), svg);
+}
+
+generatePhotoFile('admin', 'photo_admin_login_01.svg');
+generatePhotoFile('admin', 'photo_admin_login_02.svg');
+console.log('Successfully generated photo files in public/photos directory!');

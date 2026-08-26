@@ -1,0 +1,9 @@
+[package]
+name = "jvk-rust-security"
+version = "0.1.0"
+edition = "2021"
+description = "Rust Argon2 Security Layer for Joseph Vidya Kshetra Portal"
+
+[dependencies]
+argon2 = "0.5"
+rand_core = { version = "0.6", features = ["std"] }

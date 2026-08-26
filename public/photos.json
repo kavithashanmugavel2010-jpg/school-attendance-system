@@ -1,0 +1,37 @@
+[
+  {
+    "id": "PHOTO_LOG_1723456800000_INIT",
+    "timestamp": "2026-08-12T14:40:00.000Z",
+    "user": "admin",
+    "status": "AUTHORIZED",
+    "notes": "Admin authentication facial capture",
+    "clientDetails": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "platform": "Win32",
+      "ipAddress": "192.168.1.104"
+    },
+    "snapshot": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+    "facialAnalysis": {
+      "engine": "MediaPipe 3D FaceMesh",
+      "landmarkCount": 468,
+      "headPose": {
+        "pitch": 1.2,
+        "yaw": -0.8,
+        "roll": 0.3
+      },
+      "facialMetrics": {
+        "symmetryScore": 96.8,
+        "eyeAspectRatio": {
+          "left": 0.28,
+          "right": 0.285
+        },
+        "mouthAspectRatio": 0.14,
+        "boundingVolume": {
+          "width": 0.34,
+          "height": 0.44,
+          "depth": 0.12
+        }
+      }
+    }
+  }
+]
