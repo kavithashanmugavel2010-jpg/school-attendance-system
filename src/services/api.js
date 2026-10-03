@@ -21,12 +21,45 @@ export const apiService = {
     }
     const data = await res.json();
     sessionStorage.setItem('jvk_jwt_token', data.token);
+    if (data.refreshToken) {
+      sessionStorage.setItem('jvk_refresh_token', data.refreshToken);
+    }
     sessionStorage.setItem('jvk_auth', 'true');
     return data;
   },
 
-  logout() {
+  async refreshToken() {
+    const refreshToken = sessionStorage.getItem('jvk_refresh_token');
+    if (!refreshToken) return null;
+    const res = await fetch(`${API_BASE_URL}/auth/refresh`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refreshToken })
+    });
+    if (!res.ok) {
+      this.logout();
+      return null;
+    }
+    const data = await res.json();
+    sessionStorage.setItem('jvk_jwt_token', data.accessToken);
+    return data.accessToken;
+  },
+
+  async logout() {
+    const refreshToken = sessionStorage.getItem('jvk_refresh_token');
+    if (refreshToken) {
+      try {
+        await fetch(`${API_BASE_URL}/auth/logout`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ refreshToken })
+        });
+      } catch (e) {
+        // ignore logout network errors
+      }
+    }
     sessionStorage.removeItem('jvk_jwt_token');
+    sessionStorage.removeItem('jvk_refresh_token');
     sessionStorage.removeItem('jvk_auth');
   },
 
@@ -162,5 +195,14 @@ export const apiService = {
       body: JSON.stringify({ classId, date, subjectName, topic, records })
     });
     if (!res.ok) throw new Error('Failed to save homework defaulters');
+  },
+
+  // Reports
+  async exportClassReportExcel(classId) {
+    const res = await fetch(`${API_BASE_URL}/reports/class/${classId}/excel`, {
+      headers: getAuthHeaders()
+    });
+    if (!res.ok) throw new Error('Failed to export class report');
+    return res.blob();
   }
 };

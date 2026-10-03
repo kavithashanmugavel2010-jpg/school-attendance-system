@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div align="center">
 
 # 🏫 Joseph Vidya Kshetra
@@ -60,6 +61,31 @@
 - Homebrew (optional but recommended)
 - 4GB RAM minimum (8GB recommended)
 
+=======
+
+---
+
+## 📋 System Requirements
+
+### Global Prerequisites
+- **Git:** v2.20 or higher - [Download](https://git-scm.com/)
+- **Java Development Kit (JDK):** v17 or higher - [Download](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+- **Node.js & npm:** v18 or higher - [Download](https://nodejs.org/)
+
+### Platform-Specific Requirements
+
+#### **Windows**
+- Windows 10/11 (Build 19041+)
+- 4GB RAM minimum (8GB recommended)
+- Maven 3.8+ (comes with Spring Boot wrapper)
+
+#### **macOS**
+- macOS 11.0+ (Big Sur or newer)
+- Xcode Command Line Tools
+- Homebrew (optional but recommended)
+- 4GB RAM minimum (8GB recommended)
+
+>>>>>>> 73bc108 (add the untracked files)
 #### **Linux (Ubuntu/Debian/RHEL)**
 - Ubuntu 20.04 LTS+ / Debian 10+ / RHEL 8+
 - Build essentials installed
@@ -70,6 +96,10 @@
 
 ## 🚀 Getting Started & Setup
 
+<<<<<<< HEAD
+=======
+Follow the instructions below for your specific operating system to clone, build, and run the system.
+>>>>>>> 73bc108 (add the untracked files)
 ### Step 1: Verify Prerequisites
 
 #### **Windows (PowerShell as Administrator)**
@@ -78,6 +108,13 @@
 java -version
 # Expected: java version "17" or higher
 
+<<<<<<< HEAD
+=======
+### Prerequisites
+* **Java:** JDK 17 or higher
+* **Node.js:** v18 or higher (with npm)
+* **Git:** Installed on your system
+>>>>>>> 73bc108 (add the untracked files)
 # Check Node.js installation
 node --version
 npm --version
@@ -104,6 +141,10 @@ git --version
 
 ---
 
+<<<<<<< HEAD
+=======
+### 🐧 Linux (Ubuntu / Debian / RHEL)
+>>>>>>> 73bc108 (add the untracked files)
 ## 💻 Installation & Running Instructions
 
 ### 🪟 **Windows**
@@ -160,6 +201,11 @@ mvnw.cmd clean package -DskipTests
 
 #### 1️⃣ Clone the Repository
 ```bash
+<<<<<<< HEAD
+=======
+# 1. Clone repository
+git clone [https://github.com/kavithashanmugavel2010-jpg/school-attendance-system.git](https://github.com/kavithashanmugavel2010-jpg/school-attendance-system.git)
+>>>>>>> 73bc108 (add the untracked files)
 # Using Terminal
 git clone https://github.com/kavithashanmugavel2010-jpg/school-attendance-system.git
 cd school-attendance-system
@@ -170,6 +216,10 @@ cd school-attendance-system
 xcode-select --install
 ```
 
+<<<<<<< HEAD
+=======
+# 2. Run Backend (Spring Boot)
+>>>>>>> 73bc108 (add the untracked files)
 #### 3️⃣ Setup Backend (Spring Boot)
 ```bash
 # Navigate to backend directory
@@ -177,7 +227,13 @@ cd backend
 
 # Give execute permission to Maven wrapper
 chmod +x mvnw
+<<<<<<< HEAD
 
+=======
+./mvnw clean spring-boot:run &
+
+# 3. Run Frontend (React + Vite)
+>>>>>>> 73bc108 (add the untracked files)
 # Build the backend (first time only)
 ./mvnw clean install
 
@@ -500,4 +556,8 @@ This project is provided as-is for educational purposes.
 
 ---
 
+<<<<<<< HEAD
 **Last Updated:** 2026-08-26
+=======
+**Last Updated:** 2026-08-26
+>>>>>>> 73bc108 (add the untracked files)

@@ -3,26 +3,31 @@ package com.jvk.school.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "mark_records")
-public class MarkRecord {
+@Table(name = "mark_records",
+       uniqueConstraints = @UniqueConstraint(name = "unique_mark_per_student", columnNames = {"class_id", "exam_type", "subject_id", "student_id"}),
+       indexes = {
+               @Index(name = "idx_marks_lookup", columnList = "class_id, exam_type, subject_id"),
+               @Index(name = "idx_marks_student", columnList = "student_id")
+       })
+public class MarkRecord extends BaseAuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "class_id", nullable = false)
+    @Column(name = "class_id", nullable = false, length = 100)
     private String classId;
 
-    @Column(name = "exam_type", nullable = false)
+    @Column(name = "exam_type", nullable = false, length = 100)
     private String examType;
 
-    @Column(name = "subject_id", nullable = false)
+    @Column(name = "subject_id", nullable = false, length = 100)
     private String subjectId;
 
-    @Column(name = "student_id", nullable = false)
+    @Column(name = "student_id", nullable = false, length = 100)
     private String studentId;
 
-    @Column
+    @Column(precision = 5, scale = 2)
     private Double score;
 
     public MarkRecord() {}

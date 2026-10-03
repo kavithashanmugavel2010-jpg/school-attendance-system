@@ -3,23 +3,28 @@ package com.jvk.school.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "attendance_records")
-public class AttendanceRecord {
+@Table(name = "attendance_records",
+       uniqueConstraints = @UniqueConstraint(name = "unique_attendance_per_student", columnNames = {"class_id", "attendance_date", "student_id"}),
+       indexes = {
+               @Index(name = "idx_attendance_lookup", columnList = "class_id, attendance_date"),
+               @Index(name = "idx_attendance_student", columnList = "student_id")
+       })
+public class AttendanceRecord extends BaseAuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "class_id", nullable = false)
+    @Column(name = "class_id", nullable = false, length = 100)
     private String classId;
 
-    @Column(name = "attendance_date", nullable = false)
+    @Column(name = "attendance_date", nullable = false, length = 20)
     private String date;
 
-    @Column(name = "student_id", nullable = false)
+    @Column(name = "student_id", nullable = false, length = 100)
     private String studentId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String status;
 
     public AttendanceRecord() {}

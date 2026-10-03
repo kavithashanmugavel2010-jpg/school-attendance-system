@@ -6,27 +6,79 @@ spring:
     name: joseph-vidya-kshetra-backend
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/jvk_db
-    username: postgres
-    password: postgrespassword
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/school_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      pool-name: JvkHikariCP
 
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: validate # Schema managed exclusively via Flyway
+    show-sql: false
+    open-in-view: false
     properties:
       hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-    defer-datasource-initialization: true
+        format_sql: false
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+        order_updates: true
 
-  sql:
-    init:
-      mode: always
-      schema-locations: classpath:schema.sql
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+    locations: classpath:db/migration
+
+  cache:
+    type: caffeine
+    cache-names:
+      - classes
+      - subjects
+      - students
+      - attendance
 
 app:
   jwt:
     secret: 9a6f8b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a
-    expiration-ms: 86400000 # 24 hours
+    access-token-expiration-ms: 900000 # 15 minutes
+    refresh-token-expiration-ms: 604800000 # 7 days
+  async:
+    core-pool-size: 10
+    max-pool-size: 50
+    queue-capacity: 500
+    thread-name-prefix: "jvk-async-"
+
+# Resilience4j Configuration for Overload Protection
+resilience4j:
+  ratelimiter:
+    instances:
+      authLimiter:
+        limit-for-period: 10
+        limit-refresh-period: 1s
+        timeout-duration: 0ms
+      mutationLimiter:
+        limit-for-period: 50
+        limit-refresh-period: 1s
+        timeout-duration: 100ms
+  bulkhead:
+    instances:
+      heavyOpsBulkhead:
+        max-concurrent-calls: 5
+        max-wait-duration: 200ms
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha

@@ -3,20 +3,22 @@ package com.jvk.school.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "app_users")
-public class User {
+@Table(name = "app_users", indexes = {
+        @Index(name = "idx_users_username", columnList = "username")
+})
+public class User extends BaseAuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 100)
     private String username;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String role;
 
     public User() {}
